@@ -32,7 +32,7 @@ SECRET_KEY = os.environ.get(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', '.vercel.app']
 
 
 # Application definition
@@ -47,6 +47,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SECURE_SSL_REDIRECT = True
+SECURE_HSTS_SECONDS = os.environ.get('SECURE_HSTS_SECONDS', 60)
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -85,10 +91,10 @@ WSGI_APPLICATION = 'listiamo.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'listiamo',
-        "USER": "listiamo_server",
-        "PASSWORD": "pass",
-        "HOST": "127.0.0.1",
+        'NAME': os.environ.get('POSTGRES_DATABASE', 'listiamo'),
+        "USER": os.environ.get('POSTGRES_USER', "listiamo_server"),
+        "PASSWORD": os.environ.get('POSTGRES_PASSWORD', "pass"),
+        "HOST": os.environ.get('POSTGRES_HOST', "127.0.0.1"),
         "PORT": "5432",
     }
 }
