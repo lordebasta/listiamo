@@ -1,0 +1,17 @@
+python manage.py makemigrations polls
+python manage.py sqlmigrate polls 0001
+python manage.py migrate
+    looks at the INSTALLED_APPS setting and creates any necessary database tables according to the database settings in your mysite/settings.py file and the database migrations shipped with the app
+
+python manage.py shell
+ - queries: https://docs.djangoproject.com/en/5.0/topics/db/queries/
+ - get all objects: Question.objects.all()
+ - filter objects: Question.objects.filter(id=1)
+
+
+python manage.py createsuperuser
+    requests name, mail and password
+
+python manage.py runserver
+
+url dispatcher: https://docs.djangoproject.com/en/5.0/topics/http/urls/

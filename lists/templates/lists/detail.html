@@ -1,0 +1,26 @@
+<p>{{list.name}}</p>
+
+<h3>Create new movie</h3>
+<form action="{% url 'lists:create_movie' list.id %}" method="post">
+    {% csrf_token %}
+    <label for="movie_name">Movie name:</label><br>
+    <input type="text" id="movie_name" name="movie_name" maxlength="100"><br>
+    <label for="movie_link">Movie link:</label><br>
+    <input type="text" id="movie_link" name="movie_link" maxlength="255"><br>
+    <input type="submit" value="Create">
+</form>
+
+<h3>Movies</h3>
+<ul>
+    {% for movie in list.movie_set.all %}
+    <li>
+        <a href={{movie.link}}>{{movie.name}}</a>
+        <form onsubmit="return confirm('Do you really want to delete the movie?');"
+            action="{% url 'lists:delete_movie' list.id %}" method="post">
+            <input type="hidden" id="delete_movie{{forloop.counter}}" name="movie" value="{{movie.id}}">
+            {% csrf_token %}
+            <input type="submit" value="delete">
+        </form>
+    </li>
+    {% endfor %}
+</ul>

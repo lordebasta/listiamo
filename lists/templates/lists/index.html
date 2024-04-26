@@ -1,0 +1,9 @@
+{% if lists_list %}
+<ul>
+    {% for list in lists_list %}
+    <li><a href="{% url 'lists:detail' list.id %}">{{ list.name }}</a></li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No lists are available.</p>
+{% endif %}
