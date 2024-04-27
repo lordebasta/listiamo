@@ -82,7 +82,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'listiamo.wsgi.application'
+WSGI_APPLICATION = 'listiamo.wsgi.app'
 
 
 # Database
