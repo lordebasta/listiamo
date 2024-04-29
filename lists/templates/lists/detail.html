@@ -1,26 +1,128 @@
-<p>{{list.name}}</p>
+<!DOCTYPE html>
 
-<h3>Create new movie</h3>
-<form action="{% url 'lists:create_movie' list.id %}" method="post">
-    {% csrf_token %}
-    <label for="movie_name">Movie name:</label><br>
-    <input type="text" id="movie_name" name="movie_name" maxlength="100"><br>
-    <label for="movie_link">Movie link:</label><br>
-    <input type="text" id="movie_link" name="movie_link" maxlength="255"><br>
-    <input type="submit" value="Create">
-</form>
+<html lang="en">
 
-<h3>Movies</h3>
-<ul>
-    {% for movie in list.movie_set.all %}
-    <li>
-        <a href={{movie.link}}>{{movie.name}}</a>
-        <form onsubmit="return confirm('Do you really want to delete the movie?');"
-            action="{% url 'lists:delete_movie' list.id %}" method="post">
-            <input type="hidden" id="delete_movie{{forloop.counter}}" name="movie" value="{{movie.id}}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Item List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            display: flex;
+        }
+
+        .list-container {
+            flex: 1;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .add-item-form {
+            margin-left: 20px;
+            display: grid;
+            align-items: flex-start;
+        }
+
+        input[type="text"] {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        .delete-button {
+            padding: 2px 5px;
+            background-color: #ff6666;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .delete-button:hover {
+            background-color: #e04b4b;
+        }
+
+        .add-item-btn {
+            padding: 8px 20px;
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .add-item-btn:hover {
+            background-color: #45a049;
+        }
+
+        .delete-item-form {}
+
+
+        .delete-button:hover {
+            background-color: #ff4d4d;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>List: {{list.name}}</h1>
+    <div class="container">
+        <div class="list-container">
+            <ul id="item-list">
+                {% for movie in list.movie_set.all %}
+                <li>
+                    <div style="display: flex; align-items:end" ;>
+                        <a href={{movie.link}}>{{movie.name}}</a>
+                        <div style=" flex-grow: 1;"></div>
+                        <form class="delete-item-form"
+                            onsubmit="return confirm('Do you really want to delete the movie?');"
+                            action="{% url 'lists:delete_movie' list.id %}" method="post">
+                            <input type="hidden" id="delete_movie{{forloop.counter}}" name="movie" value="{{movie.id}}">
+                            {% csrf_token %}
+                            <input class="delete-button" type="submit" value="x">
+                        </form>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <form class="add-item-form" action="{% url 'lists:create_movie' list.id %}" method="post">
+            <h3>Add new item</h3>
             {% csrf_token %}
-            <input type="submit" value="delete">
+            <!-- <label for="movie_name">Item name:</label> -->
+            <input type="text" id="movie_name" name="movie_name" maxlength="100" placeholder="Item name">
+            <!-- <label for="movie_link">Item link:</label> -->
+            <input type="text" id="movie_link" name="movie_link" maxlength="255" placeholder="Item link">
+            <input class="add-item-btn" type="submit" value="Add Item">
         </form>
-    </li>
-    {% endfor %}
-</ul>
+    </div>
+</body>
+
+</html>

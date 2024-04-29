@@ -1,9 +1,11 @@
-{% if lists_list %}
-<ul>
-    {% for list in lists_list %}
-    <li><a href="{% url 'lists:detail' list.id %}">{{ list.name }}</a></li>
-    {% endfor %}
-</ul>
-{% else %}
-<p>No lists are available.</p>
-{% endif %}
+<h1>Listamo</h1>
+<p>A simple way to create lists with your friends.<br>
+    Create a new list and share the link to your friends. Don't lose it!</p>
+
+<h3>Create new list</h3>
+<form action="{% url 'lists:create_list' %}" method="post">
+    {% csrf_token %}
+    <label for="list_name">List name:</label><br>
+    <input type="text" id="list_name" name="list_name" maxlength="100"><br>
+    <input type="submit" value="Create">
+</form>

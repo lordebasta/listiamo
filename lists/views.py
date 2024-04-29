@@ -56,3 +56,10 @@ def create_movie(request, list_id):
     movie.save()
 
     return redirect('lists:detail', pk=list_id)
+
+def create_list(request):
+    list_name = request.POST["list_name"]
+    list = ListModel(name=list_name)
+    list.save()
+
+    return redirect('lists:detail', pk=list.id)
