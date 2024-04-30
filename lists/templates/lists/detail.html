@@ -14,6 +14,8 @@
     <h1>List: {{list.name}}</h1>
     <div class="container">
         <div class="list-container">
+            {% if list.item_set.all|length > 0 %}
+
             <ul id="item-list">
                 {% for item in list.item_set.all %}
                 <li>
@@ -31,6 +33,9 @@
                 </li>
                 {% endfor %}
             </ul>
+            {% else %}
+            <p>No items yet. Add one!</p>
+            {% endif %}
         </div>
         <form class="add-item-form" action="{% url 'lists:create_item' list.id %}" method="post">
             <h3>Add new item</h3>
