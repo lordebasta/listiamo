@@ -53,9 +53,8 @@ def create_item(request, list_id):
     item_name = request.POST["item_name"]
     item_link = request.POST["item_link"]
 
-    if not item_link.startswith("https://") and not item_link.startswith("http://"):
+    if item_link and not item_link.startswith("https://") and not item_link.startswith("http://"):
         item_link = "//" + item_link
-
 
     item = Item(list=list, name=item_name, link=item_link)
     item.save()

@@ -20,7 +20,11 @@
                 {% for item in list.item_set.all %}
                 <li>
                     <div style="display: flex; align-items:end" ;>
+                        {% if item.link %}
                         <a href={{item.link}}>{{item.name}}</a>
+                        {% else %}
+                        <a>{{item.name}}</a>
+                        {% endif %}
                         <div style=" flex-grow: 1;"></div>
                         <form class="delete-item-form"
                             onsubmit="return confirm('Do you really want to delete the item?');"
