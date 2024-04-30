@@ -96,15 +96,15 @@
     <div class="container">
         <div class="list-container">
             <ul id="item-list">
-                {% for movie in list.movie_set.all %}
+                {% for item in list.item_set.all %}
                 <li>
                     <div style="display: flex; align-items:end" ;>
-                        <a href={{movie.link}}>{{movie.name}}</a>
+                        <a href={{item.link}}>{{item.name}}</a>
                         <div style=" flex-grow: 1;"></div>
                         <form class="delete-item-form"
-                            onsubmit="return confirm('Do you really want to delete the movie?');"
-                            action="{% url 'lists:delete_movie' list.id %}" method="post">
-                            <input type="hidden" id="delete_movie{{forloop.counter}}" name="movie" value="{{movie.id}}">
+                            onsubmit="return confirm('Do you really want to delete the item?');"
+                            action="{% url 'lists:delete_item' list.id %}" method="post">
+                            <input type="hidden" id="delete_item{{forloop.counter}}" name="item" value="{{item.id}}">
                             {% csrf_token %}
                             <input class="delete-button" type="submit" value="x">
                         </form>
@@ -113,13 +113,13 @@
                 {% endfor %}
             </ul>
         </div>
-        <form class="add-item-form" action="{% url 'lists:create_movie' list.id %}" method="post">
+        <form class="add-item-form" action="{% url 'lists:create_item' list.id %}" method="post">
             <h3>Add new item</h3>
             {% csrf_token %}
-            <!-- <label for="movie_name">Item name:</label> -->
-            <input type="text" id="movie_name" name="movie_name" maxlength="100" placeholder="Item name">
-            <!-- <label for="movie_link">Item link:</label> -->
-            <input type="text" id="movie_link" name="movie_link" maxlength="255" placeholder="Item link">
+            <!-- <label for="item_name">Item name:</label> -->
+            <input type="text" id="item_name" name="item_name" maxlength="100" placeholder="Item name">
+            <!-- <label for="item_link">Item link:</label> -->
+            <input type="text" id="item_link" name="item_link" maxlength="255" placeholder="Item link">
             <input class="add-item-btn" type="submit" value="Add Item">
         </form>
     </div>

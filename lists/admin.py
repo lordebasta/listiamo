@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import ListModel
-from .models import Movie
+from .models import Item
 
 admin.site.register(ListModel)
-admin.site.register(Movie)
+admin.site.register(Item)

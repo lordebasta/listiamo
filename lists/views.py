@@ -6,7 +6,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.views import generic
 
-from .models import ListModel, Movie
+from .models import ListModel, Item
 
 class IndexView(generic.ListView):
     template_name = "lists/index.html"
@@ -31,11 +31,11 @@ class DetailView(generic.DetailView):
     template_name = "lists/detail.html"
 
 
-def delete_movie(request, list_id):
+def delete_item(request, list_id):
     list = get_object_or_404(ListModel, pk=list_id)
     try:
-        movie = list.movie_set.get(pk=request.POST["movie"])
-    except (KeyError, Movie.DoesNotExist):
+        item = list.item_set.get(pk=request.POST["item"])
+    except (KeyError, Item.DoesNotExist):
         return render(
             request,
             "polls/detail.html",
@@ -44,16 +44,21 @@ def delete_movie(request, list_id):
             },
         )
     else:
-        movie.delete()
+        item.delete()
         return redirect('lists:detail', pk=list_id)
 
-def create_movie(request, list_id):
+def create_item(request, list_id):
     list = get_object_or_404(ListModel, pk = list_id)
     
-    movie_name = request.POST["movie_name"]
-    movie_link = request.POST["movie_link"]
-    movie = Movie(list=list, name=movie_name, link=movie_link)
-    movie.save()
+    item_name = request.POST["item_name"]
+    item_link = request.POST["item_link"]
+
+    if not item_link.startswith("https://") and not item_link.startswith("http://"):
+        item_link = "//" + item_link
+
+
+    item = Item(list=list, name=item_name, link=item_link)
+    item.save()
 
     return redirect('lists:detail', pk=list_id)
 
