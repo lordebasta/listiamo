@@ -41,14 +41,34 @@
             <p>No items yet. Add one!</p>
             {% endif %}
         </div>
-        <form class="add-item-form" action="{% url 'lists:create_item' list.id %}" method="post">
-            <h3>Add new item</h3>
-            {% csrf_token %}
-            <input type="text" id="item_name" name="item_name" maxlength="100" placeholder="Item name">
-            <input type="text" id="item_link" name="item_link" maxlength="255" placeholder="Item link">
-            <input class="add-item-btn" type="submit" value="Add Item">
-        </form>
+        <div style="margin-left: 20px;">
+            <form class="add-item-form" action="{% url 'lists:create_item' list.id %}" method="post">
+                <h3>Add new item</h3>
+                {% csrf_token %}
+                <input type="text" id="item_name" name="item_name" maxlength="100" placeholder="Item name">
+                <input type="text" id="item_link" name="item_link" maxlength="255" placeholder="Item link">
+                <input class="btn" type="submit" value="Add Item">
+            </form>
+            <hr>
+            <div>
+                <h3>Random Item</h3>
+                <p id="random-item"></p>
+                <button class="btn" onclick="pickRandomItem();"">Pick Random Item</button>
+            </div>
+        </div>
     </div>
+
+    <script>
+        function pickRandomItem() {
+            var ul = document.getElementById("item-list"); 
+            var listItems = ul.getElementsByTagName('li');
+            randomIndex = Math.floor(Math.random() * listItems.length);
+            let randomItem = document.getElementById("random-item");
+            console.log(listItems);
+            randomItem.textContent = listItems[randomIndex].innerText;
+            return;
+        }
+    </script>
 </body>
 
 </html>

@@ -35,7 +35,6 @@ li {
 }
 
 .add-item-form {
-    margin-left: 20px;
     display: grid;
     align-items: flex-start;
 }
@@ -60,7 +59,7 @@ input[type="text"] {
     background-color: #e04b4b;
 }
 
-.add-item-btn {
+.btn {
     padding: 8px 20px;
     background-color: #4caf50;
     color: #fff;
@@ -69,7 +68,7 @@ input[type="text"] {
     cursor: pointer;
 }
 
-.add-item-btn:hover {
+.btn:hover {
     background-color: #45a049;
 }
 

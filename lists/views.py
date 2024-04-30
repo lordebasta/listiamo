@@ -1,35 +1,19 @@
 from typing import Any
-from django.db.models import F
 from django.db.models.query import QuerySet
-from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
-from django.urls import reverse
 from django.views import generic
 from datetime import date
 
 from .models import ListModel, Item
+
 
 class IndexView(generic.ListView):
     template_name = "lists/index.html"
     context_object_name = "lists_list"
 
     def get_queryset(self) -> QuerySet[Any]:
-        return ListModel.objects.all();
+        return ListModel.objects.all()
 
-
-# class IndexView(generic.ListView):
-#     template_name = "polls/index.html"
-#     context_object_name = "latest_question_list"
-
-#     def get_queryset(self):
-#         """Return the last five published questions."""
-#         return Question.objects.order_by("-pub_date")[:5]
-
-
-# class DetailView(generic.DetailView):
-#     model = ListModel
-#     context_object_name = "list"
-#     template_name = "lists/detail.html"
 
 def get_list(request, pk):
     list = get_object_or_404(ListModel, pk=pk)
@@ -55,9 +39,10 @@ def delete_item(request, list_id):
         item.delete()
         return redirect('lists:detail', pk=list_id)
 
+
 def create_item(request, list_id):
-    list = get_object_or_404(ListModel, pk = list_id)
-    
+    list = get_object_or_404(ListModel, pk=list_id)
+
     item_name = request.POST["item_name"]
     item_link = request.POST["item_link"]
 
@@ -68,6 +53,7 @@ def create_item(request, list_id):
     item.save()
 
     return redirect('lists:detail', pk=list_id)
+
 
 def create_list(request):
     list_name = request.POST["list_name"]
