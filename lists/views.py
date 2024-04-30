@@ -5,6 +5,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.views import generic
+from datetime import date
 
 from .models import ListModel, Item
 
@@ -25,10 +26,17 @@ class IndexView(generic.ListView):
 #         return Question.objects.order_by("-pub_date")[:5]
 
 
-class DetailView(generic.DetailView):
-    model = ListModel
-    context_object_name = "list"
-    template_name = "lists/detail.html"
+# class DetailView(generic.DetailView):
+#     model = ListModel
+#     context_object_name = "list"
+#     template_name = "lists/detail.html"
+
+def get_list(request, pk):
+    list = get_object_or_404(ListModel, pk=pk)
+    list.last_visited = date.today()
+    list.save()
+
+    return render(request, "lists/detail.html", {"list": list})
 
 
 def delete_item(request, list_id):
@@ -38,7 +46,7 @@ def delete_item(request, list_id):
     except (KeyError, Item.DoesNotExist):
         return render(
             request,
-            "polls/detail.html",
+            "lists/detail.html",
             {
                 "list": list
             },
@@ -63,7 +71,7 @@ def create_item(request, list_id):
 
 def create_list(request):
     list_name = request.POST["list_name"]
-    list = ListModel(name=list_name)
+    list = ListModel(name=list_name, last_visited=date.today())
     list.save()
 
     return redirect('lists:detail', pk=list.id)
