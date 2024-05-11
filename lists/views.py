@@ -1,32 +1,34 @@
 from typing import Any
 from django.db.models.query import QuerySet
+from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views import generic
 from datetime import date
 
+from . import list_repo
 from .models import ListModel, Item
 
 
-class IndexView(generic.ListView):
-    template_name = "lists/index.html"
-    context_object_name = "lists_list"
-
-    def get_queryset(self) -> QuerySet[Any]:
-        return ListModel.objects.all()
+def get_lists(request):
+    lists = list_repo.get_lists()
+    return render(request, "lists/index.html", {"lists_list": lists})
 
 
 def get_list(request, pk):
-    list = get_object_or_404(ListModel, pk=pk)
-    list.last_visited = date.today()
-    list.save()
+    try:
+        list = list_repo.get_list(pk)
+    except ListModel.DoesNotExist:
+        raise Http404(f"No list found with id {pk}")
 
     return render(request, "lists/detail.html", {"list": list})
 
 
 def delete_item(request, list_id):
-    list = get_object_or_404(ListModel, pk=list_id)
+    item_id = request.POST["item"]
     try:
-        item = list.item_set.get(pk=request.POST["item"])
+        list_repo.delete_item(list_id, item_id)
+    except ListModel.DoesNotExist:
+        return Http404(f"No list with id {list_id}")
     except (KeyError, Item.DoesNotExist):
         return render(
             request,
@@ -35,29 +37,23 @@ def delete_item(request, list_id):
                 "list": list
             },
         )
-    else:
-        item.delete()
-        return redirect('lists:detail', pk=list_id)
+    return redirect('lists:detail', pk=list_id)
 
 
 def create_item(request, list_id):
-    list = get_object_or_404(ListModel, pk=list_id)
-
     item_name = request.POST["item_name"]
     item_link = request.POST["item_link"]
 
-    if item_link and not item_link.startswith("https://") and not item_link.startswith("http://"):
-        item_link = "//" + item_link
-
-    item = Item(list=list, name=item_name, link=item_link)
-    item.save()
+    try:
+        list_repo.create_item(list_id, item_name, item_link)
+    except ListModel.DoesNotExist:
+        return Http404(f"No list with id {list_id}")
 
     return redirect('lists:detail', pk=list_id)
 
 
 def create_list(request):
     list_name = request.POST["list_name"]
-    list = ListModel(name=list_name, last_visited=date.today())
-    list.save()
+    list = list_repo.create_list(list_name)
 
     return redirect('lists:detail', pk=list.id)
