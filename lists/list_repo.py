@@ -19,6 +19,8 @@ def get_list(list_id: uuid.uuid4) -> ListModel:
 
 
 def create_list(list_name: str) -> ListModel:
+    if len(list_name) > 100:
+        raise ValueError("The list name can be at max 100 characters long.")
     list: ListModel = ListModel(name=list_name, last_visited=date.today())
     list.save()
     return list
