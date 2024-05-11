@@ -26,7 +26,7 @@ load_dotenv(env_path)
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get(
-    'DJANGO_SECRET_KEY', 
+    'DJANGO_SECRET_KEY',
     'django-insecure-5$7yz^1p&3swz4k(l97(!6+z%a_s+vkh4ar^5w+)$pfii#bf6%')
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -38,7 +38,6 @@ ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.vercel.app']
 # Application definition
 
 INSTALLED_APPS = [
-    'polls.apps.PollsConfig',
     'lists.apps.ListsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -46,6 +45,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_crontab',
+]
+
+CRONJOBS = [
+    ('0 0 1 * *', 'lists.tasks.delete_obsolete_lists'),
 ]
 
 if not DEBUG:
@@ -93,7 +97,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': os.environ.get('POSTGRES_DATABASE', 'listiamo'),
-        "USER": os.environ.get('POSTGRES_USER', "listiamo_server"),
+        "USER": os.environ.get('POSTGRES_USER', "postgres"),
         "PASSWORD": os.environ.get('POSTGRES_PASSWORD', "pass"),
         "HOST": os.environ.get('POSTGRES_HOST', "127.0.0.1"),
         "PORT": "5432",

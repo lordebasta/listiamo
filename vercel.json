@@ -10,5 +10,11 @@
             "src": "/(.*)",
             "dest": "listiamo/wsgi.py"
         }
-    ]
+    ],
+    "git": {
+        "deploymentEnabled": {
+            "main": false,
+            "dev": false
+        }
+    }
 }

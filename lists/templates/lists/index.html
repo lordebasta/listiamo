@@ -1,9 +1,31 @@
-{% if lists_list %}
-<ul>
-    {% for list in lists_list %}
-    <li><a href="{% url 'lists:detail' list.id %}">{{ list.name }}</a></li>
-    {% endfor %}
-</ul>
-{% else %}
-<p>No lists are available.</p>
-{% endif %}
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>listiamo</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'lists/style.css' %}">
+</head>
+
+<body>
+    <div class="container" style="display: block;">
+        <h1>Listiamo</h1>
+        <p>A simple way to create lists with your friends.<br>
+            Create a new list and share the link to your friends. Don't lose it!</p>
+    </div>
+    <div class="container" style="display: flex; align-items: center; justify-content: center;">
+
+        <div style="display: block;">
+            <h3>Create new list</h3>
+            <form action="{% url 'lists:create_list' %}" method="post">
+                {% csrf_token %}
+                <label for="list_name">List name:</label><br>
+                <input type="text" id="list_name" name="list_name" maxlength="100"><br>
+                <input class="btn" type="submit" value="Create">
+            </form>
+        </div>
+    </div>
+</body>

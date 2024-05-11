@@ -1,26 +1,74 @@
-<p>{{list.name}}</p>
+<!DOCTYPE html>
 
-<h3>Create new movie</h3>
-<form action="{% url 'lists:create_movie' list.id %}" method="post">
-    {% csrf_token %}
-    <label for="movie_name">Movie name:</label><br>
-    <input type="text" id="movie_name" name="movie_name" maxlength="100"><br>
-    <label for="movie_link">Movie link:</label><br>
-    <input type="text" id="movie_link" name="movie_link" maxlength="255"><br>
-    <input type="submit" value="Create">
-</form>
+<html lang="en">
 
-<h3>Movies</h3>
-<ul>
-    {% for movie in list.movie_set.all %}
-    <li>
-        <a href={{movie.link}}>{{movie.name}}</a>
-        <form onsubmit="return confirm('Do you really want to delete the movie?');"
-            action="{% url 'lists:delete_movie' list.id %}" method="post">
-            <input type="hidden" id="delete_movie{{forloop.counter}}" name="movie" value="{{movie.id}}">
-            {% csrf_token %}
-            <input type="submit" value="delete">
-        </form>
-    </li>
-    {% endfor %}
-</ul>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{list.name}}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'lists/style.css' %}">
+</head>
+
+<body>
+    <h1>List: {{list.name}}</h1>
+    <div class="container">
+        <div class="list-container">
+            {% if list.item_set.all|length > 0 %}
+
+            <ul id="item-list">
+                {% for item in list.item_set.all %}
+                <li>
+                    <div style="display: flex; align-items:end" ;>
+                        {% if item.link %}
+                        <a href={{item.link}}>{{item.name}}</a>
+                        {% else %}
+                        <a>{{item.name}}</a>
+                        {% endif %}
+                        <div style=" flex-grow: 1;"></div>
+                        <form class="delete-item-form"
+                            onsubmit="return confirm('Do you really want to delete the item?');"
+                            action="{% url 'lists:delete_item' list.id %}" method="post">
+                            <input type="hidden" id="delete_item{{forloop.counter}}" name="item" value="{{item.id}}">
+                            {% csrf_token %}
+                            <input class="delete-button" type="submit" value="x">
+                        </form>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p>No items yet. Add one!</p>
+            {% endif %}
+        </div>
+        <div style="margin-left: 20px;">
+            <form class="add-item-form" action="{% url 'lists:create_item' list.id %}" method="post">
+                <h3>Add new item</h3>
+                {% csrf_token %}
+                <input type="text" id="item_name" name="item_name" maxlength="100" placeholder="Item name">
+                <input type="text" id="item_link" name="item_link" maxlength="255" placeholder="Item link">
+                <input class="btn" type="submit" value="Add Item">
+            </form>
+            <hr>
+            <div>
+                <h3>Random Item</h3>
+                <p id="random-item"></p>
+                <button class="btn" onclick="pickRandomItem();"">Pick Random Item</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function pickRandomItem() {
+            var ul = document.getElementById("item-list"); 
+            var listItems = ul.getElementsByTagName('li');
+            randomIndex = Math.floor(Math.random() * listItems.length);
+            let randomItem = document.getElementById("random-item");
+            console.log(listItems);
+            randomItem.textContent = listItems[randomIndex].innerText;
+            return;
+        }
+    </script>
+</body>
+
+</html>
