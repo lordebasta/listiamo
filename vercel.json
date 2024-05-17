@@ -4,11 +4,12 @@
             "src": "listiamo/wsgi.py",
             "use": "@vercel/python",
             "config": {
+                "maxLambdaSize": "15mb",
                 "runtime": "Python3.9"
             }
         },
         {
-            "src": "buidl.sh", 
+            "src": "build.sh", 
             "use": "@vercel/static-build", 
             "config": {
                 "distDir": "staticfiles_build"
@@ -27,7 +28,7 @@
     ],
     "git": {
         "deploymentEnabled": {
-            "main": false,
+            "main": true,
             "dev": false
         }
     }

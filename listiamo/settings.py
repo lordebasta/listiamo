@@ -143,7 +143,7 @@ USE_TZ = True
 # STATIC_URL: The URL prefix for your static files.
 # STATICFILES_DIRS: Additional directories containing static files.
 
-STATIC_URL = '/staticfiles/'
+STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
