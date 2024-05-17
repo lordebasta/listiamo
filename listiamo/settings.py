@@ -26,7 +26,7 @@ load_dotenv(env_path)
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get(
-    'DJANGO_SECRET_KEY', 
+    'DJANGO_SECRET_KEY',
     'django-insecure-5$7yz^1p&3swz4k(l97(!6+z%a_s+vkh4ar^5w+)$pfii#bf6%')
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -135,7 +135,17 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
+# STATIC_ROOT: Specifies the directory where collectstatic will gather all your static files during deployment.
+# STATIC_URL: The URL prefix for your static files.
+# STATICFILES_DIRS: Additional directories containing static files.
+
+STATIC_URL = '/staticfiles/'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
+
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles_build", 'static')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

@@ -2,10 +2,24 @@
     "builds": [
         {
             "src": "listiamo/wsgi.py",
-            "use": "@vercel/python"
+            "use": "@vercel/python",
+            "config": {
+                "runtime": "Python3.9"
+            }
+        },
+        {
+            "src": "buidl.sh", 
+            "use": "@vercel/static-build", 
+            "config": {
+                "distDir": "staticfiles_build"
+            }
         }
     ],
     "routes": [
+        {
+            "src": "/static/(.*)",
+            "dest": "/static/$1"
+        },
         {
             "src": "/(.*)",
             "dest": "listiamo/wsgi.py"
