@@ -1,4 +1,60 @@
+@font-face {
+    font-family: 'Roboto';
+    src: url('fonts/Roboto/Roboto-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Outfit';
+    src: url('fonts/Outfit/Outfit-VariableFont_wght.ttf') format('truetype');
+}
+
+:root {
+    --text-font: 'Roboto';
+    --font: 'Outfit';
+    --text-color: #3E3E3E;
+    --background-color: #FBF3D5;
+    --primary-color: #EFBC9B;
+    --secondary-color: #D6DAC8;
+    --terziary-color: #9CAFAA;
+}
+
 body {
+    background-color: var(--background-color);
+    font-family: var(--text-font);
+    color: var(--text-color);
+}
+
+h1, h2, h3{
+    font-family: var(--font);
+    color: var(--primary-color);
+    font-weight: normal;
+}
+
+#navbar {
+    color: var(--terziary-color);
+    font-family: var(--font);
+    margin-top: 30px;
+}
+
+.input-field {
+    z-index: 1; 
+    border: 1px; 
+    background-color: var(--background-color);
+}
+
+.btn {
+    color: white; 
+    width: fit-content; 
+    background-color: var(--terziary-color);
+}
+
+.form-btn {
+    padding-top: 13px; 
+    margin-left: auto; 
+    margin-right: 1em;
+    position: relative; top: -18px;
+}
+/* body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
@@ -74,4 +130,4 @@ input[type="text"] {
 
 .delete-button:hover {
     background-color: #ff4d4d;
-}
+} */
