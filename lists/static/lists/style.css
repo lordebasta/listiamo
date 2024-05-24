@@ -54,3 +54,9 @@ h1, h2, h3{
     margin-right: 1em;
     position: relative; top: -18px;
 }
+
+@media (min-width: 992px) {
+    .container {
+        width: 960px;
+    }
+}
