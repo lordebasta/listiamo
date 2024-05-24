@@ -54,7 +54,6 @@
                 <div style="flex-grow: 1"></div>
                 <form
                   class="delete-item-form"
-                  onsubmit="return confirm('Do you really want to delete the item?');"
                   action="{% url 'lists:delete_item' list.id %}"
                   method="post"
                 >
