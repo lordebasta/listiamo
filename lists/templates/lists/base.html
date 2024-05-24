@@ -29,5 +29,17 @@
       <div style="height: 140px"></div>
       {% block content %}{% endblock %}
     </div>
+    <div class="fixed-bottom" id="bottom-bar" style="padding-bottom: 10px;">
+      <div class="container">
+        <div class="col-1 offset-11">
+          <div class="btn btn-primary-outline"
+               style="background-color: transparent;
+                      color: var(--terziary-color)"
+               onclick="location.href='https://github.com/lordebasta/listiamo'">
+            <img src="{% static 'github.png' %}" style="width: 35px;">
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
