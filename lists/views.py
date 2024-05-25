@@ -2,7 +2,7 @@ from django.conf import settings
 from django.http import FileResponse, Http404, HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
 from django.views.decorators.cache import cache_control
-from django.views.decorators.http import require_GET
+from django.views.decorators.http import require_GET, require_POST
 
 from . import list_repo
 from .models import ListModel, Item
@@ -15,11 +15,12 @@ def favicon(request: HttpRequest) -> HttpResponse:
     return FileResponse(file)
 
 
+@require_GET
 def get_lists(request):
-    lists = list_repo.get_lists()
-    return render(request, "lists/index.html", {"lists_list": lists})
+    return render(request, "lists/index.html")
 
 
+@require_GET
 def get_list(request, pk):
     try:
         list = list_repo.get_list(pk)
@@ -29,6 +30,7 @@ def get_list(request, pk):
     return render(request, "lists/detail.html", {"list": list})
 
 
+@require_POST
 def delete_item(request, list_id):
     item_id = request.POST["item"]
     try:
@@ -46,6 +48,7 @@ def delete_item(request, list_id):
     return redirect('lists:detail', pk=list_id)
 
 
+@require_POST
 def create_item(request, list_id):
     item_name = request.POST["item_name"]
     item_link = request.POST["item_link"]
@@ -58,6 +61,7 @@ def create_item(request, list_id):
     return redirect('lists:detail', pk=list_id)
 
 
+@require_POST
 def create_list(request):
     list_name = request.POST["list_name"]
     list = list_repo.create_list(list_name)
