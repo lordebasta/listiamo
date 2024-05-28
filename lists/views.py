@@ -16,7 +16,7 @@ def favicon(request: HttpRequest) -> HttpResponse:
 
 
 @require_GET
-def get_lists(request):
+def get_homepage(request):
     return render(request, "lists/index.html")
 
 

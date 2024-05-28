@@ -23,6 +23,10 @@ def create_list(list_name: str) -> ListModel:
     return list
 
 
+def get_items(list_id: uuid.uuid4):
+    return get_list(list_id).item_set.all()
+
+
 def create_item(list_id: uuid.uuid4, item_name: str, item_link: str = "") -> None:
     if item_name == "":
         raise ValueError("item_name can't be empty")
