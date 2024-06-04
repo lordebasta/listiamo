@@ -9,6 +9,21 @@ from lists.models import Item, ListModel
 from lists.serializers import ItemSerializer, ListSerializer
 
 
+class CreateListView(APIView):
+    @parser_classes((JSONParser,))
+    def post(self, request):
+        if not 'list_name' in request.data:
+            return Response({'error':  'missing field \'list_name\' in body.'}, status=400)
+
+        list_name = request.data['list_name']
+        list = list_repo.create_list(list_name)
+
+        items = list_repo.get_items(list.id)
+        data = ListSerializer(list).data
+        data['items'] = [ItemSerializer(item).data for item in items]
+        return Response(data, status=201)
+
+
 class ListView(APIView):
     def get(self, request, list_id):
         try:
@@ -20,19 +35,6 @@ class ListView(APIView):
         data = ListSerializer(list).data
         data['items'] = [ItemSerializer(item).data for item in items]
         return Response(data)
-
-    @parser_classes((JSONParser,))
-    def post(self, request):
-        if not 'list_name' in request.data:
-            return Response({'error':  'missing field \'list_name\' in body.'}, status=400)
-
-        list_name = request.data['list_name']
-        list = list_repo.create(list_name)
-
-        items = list_repo.get_items(list.id)
-        data = ListSerializer(list).data
-        data['items'] = [ItemSerializer(item).data for item in items]
-        return Response(data, status=201)
 
 
 class ItemView(APIView):
