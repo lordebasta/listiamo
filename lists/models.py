@@ -10,10 +10,11 @@ class ListModel(models.Model):
     def __str__(self):
         return self.name
 
+
 class Item(models.Model):
     list = models.ForeignKey(ListModel, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
-    link = models.CharField(null=True, blank=True)
+    link = models.CharField(null=True, blank=True, max_length=255)
 
     def __str__(self):
         return self.name

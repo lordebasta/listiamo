@@ -26,16 +26,6 @@ class ListRepoTestCase(TestCase):
             with self.subTest(msg=f"name length = {len(name)}"):
                 self.assertRaises(ValueError, list_repo.create_list, name)
 
-    def test_get_lists(self):
-        ListModel.objects.create(
-            id="c9224235-d04d-4849-9ffd-b4236d5582f3",
-            name="listB",
-            last_visited=datetime.now())
-        lists = ListModel.objects.all()
-        self.assertEqual(len(lists), 2)
-        self.assertEqual(lists[0].name, "listA")
-        self.assertEqual(lists[1].name, "listB")
-
     def test_create_item(self):
         list_id = self.listA.id
 

@@ -28,6 +28,8 @@ def get_items(list_id: uuid.uuid4):
 
 
 def create_item(list_id: uuid.uuid4, item_name: str, item_link: str = "") -> None:
+    if item_link is None:
+        item_link = ""
     if item_name == "":
         raise ValueError("item_name can't be empty")
     if len(item_name) > 100:
